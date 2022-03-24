@@ -4,13 +4,13 @@ import ui
 import sound
 
 main_view = None
+found_codes = set()
 
 class barcodeScanner():
 	'''
 	'''
 
 	def __init__(self):
-		self.found_codes = set()
 
 		#wrap c objects in python
 		self.AVCaptureSession = ObjCClass('AVCaptureSession')
@@ -25,12 +25,13 @@ class barcodeScanner():
 			'''
 				Reads strings from our QR code scans. Adds found codes into `found_codes'.
 			'''
+			global found_codes
 			objects = ObjCInstance(_metadata_objects)
 			for obj in objects:
 				try:
 					s = str(obj.stringValue())
 					if s not in found_codes:
-						self.found_codes.add(s)
+						found_codes.add(s)
 						sound.play_effect('digital:PowerUp7')
 					main_view['label'].text = 'Last scan: ' + s
 				except:
