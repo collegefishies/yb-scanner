@@ -71,7 +71,7 @@ class barcodeScanner():
 				try:
 					s = str(obj.stringValue())
 					if s not in found_codes:
-						found_codes.add(s)
+						found_codes.append(s)
 						sound.play_effect('digital:PowerUp7')
 					main_view['label'].text = 'Last scan: ' + s
 				except:
