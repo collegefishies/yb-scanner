@@ -7,15 +7,15 @@ class barcodeScanner():
 	'''
 	'''
 
-	def __init__():
+	def __init__(self):
 		#wrap c objects in python
 		self.AVCaptureSession = ObjCClass('AVCaptureSession')
 		self.AVCaptureDevice = ObjCClass('AVCaptureDevice')
 		self.AVCaptureDeviceInput = ObjCClass('AVCaptureDeviceInput')
 		self.AVCaptureMetadataOutput = ObjCClass('AVCaptureMetadataOutput')
 		self.AVCaptureVideoPreviewLayer = ObjCClass('AVCaptureVideoPreviewLayer')
-		dispatch_get_current_queue = c.dispatch_get_current_queue
-		dispatch_get_current_queue.restype = c_void_p
+		self.dispatch_get_current_queue = c.dispatch_get_current_queue
+		self.dispatch_get_current_queue.restype = c_void_p
 
 		def captureOutput_didOutputMetadataObjects_fromConnection_(_self, _cmd, _output, _metadata_objects, _conn):
 			'''
@@ -39,7 +39,7 @@ class barcodeScanner():
 		)
 		
 	@on_main_thread
-	def main():
+	def main(self):
 		global main_view
 
 		#create delegate object
@@ -62,7 +62,7 @@ class barcodeScanner():
 		#create resources for read data
 		output = self.AVCaptureMetadataOutput.alloc().init()
 		
-		queue = ObjCInstance(dispatch_get_current_queue())
+		queue = ObjCInstance(self.dispatch_get_current_queue())
 		output.setMetadataObjectsDelegate_queue_(delegate, queue)
 		session.addOutput_(output)
 		output.setMetadataObjectTypes_(output.availableMetadataObjectTypes())
