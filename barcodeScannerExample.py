@@ -25,11 +25,14 @@ def captureOutput_didOutputMetadataObjects_fromConnection_(_self, _cmd, _output,
 	'''
 	objects = ObjCInstance(_metadata_objects)
 	for obj in objects:
-		s = str(obj.stringValue())
-		if s not in found_codes:
-			found_codes.add(s)
-			sound.play_effect('digital:PowerUp7')
-		main_view['label'].text = 'Last scan: ' + s
+		try:
+			s = str(obj.stringValue())
+			if s not in found_codes:
+				found_codes.add(s)
+				sound.play_effect('digital:PowerUp7')
+			main_view['label'].text = 'Last scan: ' + s
+		except:
+			pass
 
 MetadataDelegate = create_objc_class(
 	'MetadataDelegate', 
@@ -83,7 +86,7 @@ def main():
 	session.release()
 	output.release()
 	if found_codes:
-		print 'All scanned codes:\n' + '\n'.join(found_codes)
+		print('All scanned codes:\n' + '\n'.join(found_codes))
 
 if __name__ == '__main__':
 	main()
