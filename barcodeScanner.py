@@ -16,11 +16,11 @@ def run_in_thread(fn):
         t.start()
         return t # <-- this is new!
     return run
-
+.
 def sendBarcode():
 	HOST, PORT = "thecatcave.ybclock.net", 9999
-	data = "test" 
-
+	global found_codes
+	data = str(found_codes)
 	# Create a socket (SOCK_STREAM means a TCP socket)
 	with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
 	    # Connect to server and send data
