@@ -9,6 +9,7 @@ import time
 
 main_view = None
 found_codes = list()
+SENDPERIOD = 1
 
 def run_in_thread(fn):
     def run(*k, **kw):
@@ -30,13 +31,18 @@ def sendBarcode():
 
 	    # Receive data from the server and shut down
 	    received = str(sock.recv(1024), "utf-8")
+	    
 
 
 @run_in_thread
 def barcodeTransmitter():
 	while True:
-		sendBarcode()
-		time.sleep(1)
+		try:
+			sendBarcode()
+			time.sleep(SENDPERIOD)
+		except:
+			pass
+		
 
 
 
