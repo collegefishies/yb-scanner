@@ -128,5 +128,6 @@ class barcodeScanner():
 
 if __name__ == '__main__':
 	bc = barcodeScanner()
-	bc.main()
 	barcodeTransmitter()
+	bc.main()
+	
