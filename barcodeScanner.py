@@ -14,6 +14,7 @@ def run_in_thread(fn):
     def run(*k, **kw):
         t = threading.Thread(target=fn, args=k, kwargs=kw)
         t.start()
+        t.isBackground = True
         return t # <-- this is new!
     return run
 
