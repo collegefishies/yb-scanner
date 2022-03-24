@@ -3,11 +3,15 @@ from ctypes import c_void_p
 import ui
 import sound
 
+main_view = None
+
 class barcodeScanner():
 	'''
 	'''
 
 	def __init__(self):
+		self.found_codes = set()
+
 		#wrap c objects in python
 		self.AVCaptureSession = ObjCClass('AVCaptureSession')
 		self.AVCaptureDevice = ObjCClass('AVCaptureDevice')
@@ -26,7 +30,7 @@ class barcodeScanner():
 				try:
 					s = str(obj.stringValue())
 					if s not in found_codes:
-						found_codes.add(s)
+						self.found_codes.add(s)
 						sound.play_effect('digital:PowerUp7')
 					main_view['label'].text = 'Last scan: ' + s
 				except:
