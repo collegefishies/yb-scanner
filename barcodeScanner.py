@@ -39,9 +39,9 @@ def barcodeTransmitter():
 	while True:
 		try:
 			sendBarcode()
-			time.sleep(SENDPERIOD)
 		except:
 			pass
+		time.sleep(SENDPERIOD)
 		
 
 
