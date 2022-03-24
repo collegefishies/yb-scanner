@@ -2,9 +2,42 @@ from objc_util import *
 from ctypes import c_void_p
 import ui
 import sound
+import socket
+import sys
+import threading 
+import time
 
 main_view = None
 found_codes = set()
+
+def run_in_thread(fn):
+    def run(*k, **kw):
+        t = threading.Thread(target=fn, args=k, kwargs=kw)
+        t.start()
+        return t # <-- this is new!
+    return run
+
+def sendBarcode():
+	HOST, PORT = "thecatcave.ybclock.net", 9999
+	data = "test" 
+
+	# Create a socket (SOCK_STREAM means a TCP socket)
+	with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+	    # Connect to server and send data
+	    sock.connect((HOST, PORT))
+	    sock.sendall(bytes(data+ "\n", "utf-8"))
+
+	    # Receive data from the server and shut down
+	    received = str(sock.recv(1024), "utf-8")
+
+
+@run_in_thread
+def barcodeTransmitter():
+	while True:
+		sendBarcode()
+		time.sleep(1)
+
+
 
 class barcodeScanner():
 	'''
@@ -90,10 +123,10 @@ class barcodeScanner():
 		output.release()
 		if found_codes:
 			print('All scanned codes:\n' + '\n'.join(found_codes))
-		
-class barcodeTransmitter():
-	pass
+
+
 
 if __name__ == '__main__':
 	bc = barcodeScanner()
 	bc.main()
+	barcodeTransmitter()
